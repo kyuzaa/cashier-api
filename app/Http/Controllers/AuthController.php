@@ -43,11 +43,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User registered successfully',
-<<<<<<< HEAD
                 'results' => [
-=======
-                'data' => [
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
                     'user' => $user,
                     'token' => $token,
                     'token_type' => 'Bearer'
@@ -102,11 +98,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful',
-<<<<<<< HEAD
                 'results' => [
-=======
-                'data' => [
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
                     'user' => $user,
                     'token' => $token,
                     'token_type' => 'Bearer'

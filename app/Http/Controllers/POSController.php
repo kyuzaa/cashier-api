@@ -18,11 +18,7 @@ class POSController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data retrieved successfully',
-<<<<<<< HEAD
                 'results' => $categories
-=======
-                'data' => $categories
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -44,11 +40,7 @@ class POSController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Search results retrieved successfully',
-<<<<<<< HEAD
                 'results' => $categories
-=======
-                'data' => $categories
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -85,11 +77,7 @@ class POSController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Checkout successful',
-<<<<<<< HEAD
                 'results' => $transaction
-=======
-                'data' => $transaction
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ], 201);
         } catch (Exception $e) {
             Log::error($e->getMessage());

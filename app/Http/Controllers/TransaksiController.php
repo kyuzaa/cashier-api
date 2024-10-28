@@ -16,11 +16,7 @@ class TransaksiController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data retrieved successfully',
-<<<<<<< HEAD
                 'results' => [
-=======
-                'data' => [
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
                     'transactions' => $transactions,
                     'total_amount' => $total_amount
                 ]
@@ -47,11 +43,7 @@ class TransaksiController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Transaction status updated successfully',
-<<<<<<< HEAD
                 'results' => $transaction
-=======
-                'data' => $transaction
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -81,11 +73,7 @@ class TransaksiController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Search results retrieved successfully',
-<<<<<<< HEAD
                 'results' => [
-=======
-                'data' => [
->>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
                     'transactions' => $transactions,
                     'total_amount' => $total_amount
                 ]
