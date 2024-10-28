@@ -8,9 +8,19 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function show()
+    public function index()
     {
         $category = Category::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Success Receive Category',
+            'results' => $category
+        ]);
+    }
+
+    public function show($id)
+    {
+        $category = Category::where('id', $id)->get();
         return response()->json([
             'status' => true,
             'message' => 'Success Receive Category',
@@ -24,10 +34,8 @@ class CategoryController extends Controller
                 'name' => 'required|string|max:50',
             ]);
 
-            // Generate slug
             $slug = Str::slug($validated['name']);
 
-            // Check if slug exists
             $count = Category::where('slug', 'LIKE', "{$slug}%")->count();
             $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
 
@@ -56,7 +64,6 @@ class CategoryController extends Controller
                 'icon' => 'nullable|string'
             ]);
 
-            // Update slug if name changes
             if ($validated['name'] !== $category->name) {
                 $slug = Str::slug($validated['name']);
                 $count = Category::where('slug', 'LIKE', "{$slug}%")
@@ -77,6 +84,25 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to update category',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Category deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to delete category',
                 'error' => $e->getMessage()
             ], 500);
         }

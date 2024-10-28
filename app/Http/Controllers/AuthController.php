@@ -11,13 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    /**
-     * Register new user
-     */
     public function register(Request $request)
     {
         try {
-            // Validasi input
             $validator = Validator::make($request->all(), [
                 'username' => 'required|string|max:25',
                 'password' => 'required|string'
@@ -31,13 +27,11 @@ class AuthController extends Controller
                 ], 422);
             }
 
-            // Buat user baru
             $user = User::create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password)
             ]);
 
-            // Buat token
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -59,13 +53,9 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Login user
-     */
     public function login(Request $request)
     {
         try {
-            // Validasi input
             $validator = Validator::make($request->all(), [
                 'username' => 'required',
                 'password' => 'required'
@@ -79,7 +69,6 @@ class AuthController extends Controller
                 ], 422);
             }
 
-            // Cek credentials
             if (!Auth::attempt($request->only('username', 'password'))) {
                 return response()->json([
                     'status' => false,
@@ -89,10 +78,8 @@ class AuthController extends Controller
 
             $user = User::where('username', $request->username)->first();
 
-            // Hapus token lama jika ada
             $user->tokens()->delete();
 
-            // Buat token baru
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
@@ -114,9 +101,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Get user profile
-     */
     public function profile(Request $request)
     {
         try {
@@ -137,9 +121,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Logout user
-     */
     public function logout(Request $request)
     {
         try {
@@ -160,9 +141,6 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Refresh token
-     */
     public function refreshToken(Request $request)
     {
         try {

@@ -10,7 +10,6 @@ class Transaction extends Model
 
     protected $fillable = ['total_amount', 'status', 'items', 'nomor_meja', 'tanggal'];
 
-    // Cast attributes
     protected $casts = [
         'items' => 'array',
         'tanggal' => 'datetime:Y-m-d H:i:s',
@@ -18,7 +17,6 @@ class Transaction extends Model
         'status' => 'string'
     ];
 
-    // Hidden attributes
     protected $hidden = [
         'created_at',
         'updated_at'
@@ -26,7 +24,6 @@ class Transaction extends Model
 
     public $timestamps = false;
 
-    // Accessor untuk status dalam bentuk text
     public function getStatusTextAttribute()
     {
         return match($this->status) {
@@ -37,6 +34,5 @@ class Transaction extends Model
         };
     }
 
-    // Append status text ke JSON
     protected $appends = ['status_text'];
 }

@@ -33,8 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('products', MenuController::class);
 
     //Category
-    Route::get('/category', [CategoryController::class, 'show']);
-    Route::post('/category/create', [CategoryController::class, 'store']);
+    Route::apiResource('category', CategoryController::class);
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']);

@@ -5,8 +5,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class MenuController extends Controller
 {
@@ -32,8 +34,8 @@ class MenuController extends Controller
             ], 500);
         }
     }
-    
-    public function show(int $id) 
+
+    public function show($id)
     {
         try {
             $product = Menu::with('category')->where('id', $id);
@@ -61,22 +63,32 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        Log::info($request->all());
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'category_id' => 'required|exists:category,id',
                 'price' => 'required|numeric',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+                'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            // Generate slug
             $slug = Str::slug($validated['name']);
             $count = Menu::where('slug', 'LIKE', "{$slug}%")->count();
             $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
 
-            // Handle image upload if exists
+            $category = Category::findOrFail($request->category_id);
+
             if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('products', 'public');
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $imageName = $validated['name'] . '_' . time() . '.' . $extension;
+
+                $path = $file->storeAs(
+                    'product/' . $category->name,
+                    $imageName,
+                    'public'
+                );
+
                 $validated['image'] = $path;
             }
 
@@ -88,7 +100,15 @@ class MenuController extends Controller
                 'results' => $product
             ], 201);
 
+        } catch (ValidationException $e) {
+            Log::error('Validation Error: ' . json_encode($e->errors()));
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
+            Log::error('Error creating product: ' . $e->getMessage());
             return response()->json([
                 'status' => false,
                 'message' => 'Failed to create product',
@@ -107,7 +127,6 @@ class MenuController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
-            // Update slug if name changes
             if (isset($validated['name']) && $validated['name'] !== $product->name) {
                 $slug = Str::slug($validated['name']);
                 $count = Menu::where('slug', 'LIKE', "{$slug}%")
@@ -115,15 +134,13 @@ class MenuController extends Controller
                     ->count();
                 $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
             }
-
-            // Handle image upload if exists
+            $category = Category::where('id', $product->category_id)->first();
             if ($request->hasFile('image')) {
-                // Delete old image if exists
                 if ($product->image) {
                     Storage::disk('public')->delete($product->image);
                 }
-
-                $path = $request->file('image')->store('products', 'public');
+                $imagePath = $request->name . '.'. $request->file('image')->extension();
+                $path = $request->file('image')->storeAs('menu/' . $category->name, $imagePath, 'public');
                 $validated['image'] = $path;
             }
 

@@ -13,19 +13,16 @@ class Category extends Model
 
     public $timestamps = false;
 
-    // Hidden attributes
     protected $hidden = [
         'created_at',
         'updated_at'
     ];
 
-    // Relasi dengan products
     public function products()
     {
         return $this->hasMany(Menu::class);
     }
 
-    // Load products when requested
     public function toArray()
     {
         $array = parent::toArray();
