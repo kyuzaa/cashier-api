@@ -19,7 +19,11 @@ class MenuController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data retrieved successfully',
+<<<<<<< HEAD
                 'results' => [
+=======
+                'data' => [
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
                     'products' => $products,
                     'categories' => $categories
                 ]
@@ -32,6 +36,7 @@ class MenuController extends Controller
             ], 500);
         }
     }
+<<<<<<< HEAD
     
     public function show(int $id) 
     {
@@ -58,6 +63,8 @@ class MenuController extends Controller
             ], 500);
         }
     }
+=======
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
 
     public function store(Request $request)
     {
@@ -85,7 +92,11 @@ class MenuController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Product created successfully',
+<<<<<<< HEAD
                 'results' => $product
+=======
+                'data' => $product
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ], 201);
 
         } catch (\Exception $e) {
@@ -132,7 +143,11 @@ class MenuController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Product updated successfully',
+<<<<<<< HEAD
                 'results' => $product
+=======
+                'data' => $product
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
 
         } catch (\Exception $e) {

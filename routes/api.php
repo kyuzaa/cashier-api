@@ -6,11 +6,18 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AuthController;
+<<<<<<< HEAD
 use App\Http\Controllers\CategoryController;
 
 // Authentication Routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+=======
+
+// Authentication Routes
+Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/register', [AuthController::class, 'register']);
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
 
 // Protected Routes
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -32,10 +39,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Products
     Route::apiResource('products', MenuController::class);
 
+<<<<<<< HEAD
     //Category
     Route::get('/category', [CategoryController::class, 'show']);
     Route::post('/category/create', [CategoryController::class, 'store']);
 
+=======
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 });

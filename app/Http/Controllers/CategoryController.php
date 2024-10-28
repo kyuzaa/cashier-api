@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+<<<<<<< HEAD
     public function show()
     {
         $category = Category::all();
@@ -17,11 +18,17 @@ class CategoryController extends Controller
             'results' => $category
         ]);
     }
+=======
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
     public function store(Request $request)
     {
         try {
             $validated = $request->validate([
                 'name' => 'required|string|max:50',
+<<<<<<< HEAD
+=======
+                'icon' => 'nullable|string'
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
 
             // Generate slug
@@ -36,7 +43,11 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Category created successfully',
+<<<<<<< HEAD
                 'results' => $category
+=======
+                'data' => $category
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ], 201);
 
         } catch (\Exception $e) {
@@ -70,7 +81,11 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Category updated successfully',
+<<<<<<< HEAD
                 'results' => $category
+=======
+                'data' => $category
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
             ]);
 
         } catch (\Exception $e) {

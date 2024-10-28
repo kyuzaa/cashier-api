@@ -10,7 +10,11 @@ class Menu extends Model
     use HasFactory;
 
     protected $table = "products";
+<<<<<<< HEAD
     protected $fillable = ['name', 'price', 'stock', 'category_id', 'image', 'slug'];
+=======
+    protected $fillable = ['name', 'price', 'stock', 'category_id', 'image'];
+>>>>>>> 6decea440c456a0f635695f0c2f9c5e9d191b254
 
     // Hidden attributes
     protected $hidden = [
