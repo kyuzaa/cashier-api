@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $category = Category::all();
+        $category = Category::with('products')->get();
         return response()->json([
             'status' => true,
             'message' => 'Success Receive Category',
