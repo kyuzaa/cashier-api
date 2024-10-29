@@ -38,7 +38,7 @@ class MenuController extends Controller
     public function show($id)
     {
         try {
-            $product = Menu::with('category')->where('id', $id);
+            $product = Menu::with('category')->where('id', $id)->first();
 
             if (!$product) {
                 return response()->json([
@@ -117,8 +117,9 @@ class MenuController extends Controller
         }
     }
 
-    public function update(Request $request, Menu $product)
+    public function update($id, Request $request)
     {
+        Log::info($request->all());
         try {
             $validated = $request->validate([
                 'name' => 'sometimes|required|string|max:255',
@@ -126,6 +127,8 @@ class MenuController extends Controller
                 'price' => 'sometimes|required|numeric',
                 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ]);
+
+            $product = Menu::findOrFail($id);
 
             if (isset($validated['name']) && $validated['name'] !== $product->name) {
                 $slug = Str::slug($validated['name']);
@@ -151,7 +154,13 @@ class MenuController extends Controller
                 'message' => 'Product updated successfully',
                 'results' => $product
             ]);
-
+        } catch (ValidationException $e) {
+            Log::error('Validation Error: ' . json_encode($e->errors()));
+            return response()->json([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => false,

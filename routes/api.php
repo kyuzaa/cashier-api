@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Products
     Route::apiResource('products', MenuController::class);
+    Route::post('/products/{id}/update', [MenuController::class, 'update']);
 
     //Category
     Route::apiResource('category', CategoryController::class);
